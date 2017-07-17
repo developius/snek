@@ -67,9 +67,14 @@ if (program.args[1] === "k") {
 	controller2.name = "Player 2";
 } else if (program.args[1]) {
 	controller2 = require(path.resolve(process.cwd(), program.args[1]));
+}
+
+const game = {
+	exit: () => {},
+	finish: () => {}
 }	
 	
-var app = new App(config, controller1, controller2);
+var app = new App(game, config, controller1, controller2);
 
 // Create ui components
 var box = blessed.box({

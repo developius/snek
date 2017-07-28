@@ -2,8 +2,13 @@ const blessed = require('blessed')
 const App = require('./lib/app')
 const Ticker = require('./lib/ticker.js')
 
-module.exports = (game, username) => {
-  const screen = game.screen
+module.exports = (Game) => {
+  const screen = blessed.screen({
+    smartCSR: true,
+    input: Game.stream,
+    output: Game.stream
+  })
+
   const config = {
     width: 50,
     height: 20,
@@ -32,9 +37,9 @@ module.exports = (game, username) => {
   }
 
   let controller = keyboardController()
-  controller.name = username
-    
-  const app = new App(game, config, controller)
+  controller.name = Game.username
+
+  const app = new App(Game, config, controller)
 
   // Create ui components
   let box = blessed.box({
@@ -73,7 +78,7 @@ module.exports = (game, username) => {
 
   screen.key(['escape', 'q', 'C-c'], function(ch, key) {
     ticker.stop()
-    game.exit(1)
+    Game.exit(1)
   })
 
   screen.render()
